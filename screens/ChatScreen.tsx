@@ -1,5 +1,10 @@
+import { View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 
 export default function ChatScreen() {
-  return <GiftedChat></GiftedChat>;
+  return (
+    <View>
+      <GiftedChat />
+    </View>
+  );
 }
