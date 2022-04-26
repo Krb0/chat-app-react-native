@@ -20,6 +20,7 @@ export default {
       supportsTablet: true,
     },
     android: {
+      softwareKeyboardLayoutMode: "pan",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF",
