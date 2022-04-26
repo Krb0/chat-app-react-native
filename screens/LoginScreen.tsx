@@ -1,22 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
-import {
-  Alert,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React from "react";
+import { Image, StyleSheet, View } from "react-native";
 import Form from "../components/LoginScreen/Form";
-import Inputs from "../components/LoginScreen/Form/Inputs";
-import { auth } from "../config/firebase";
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Image
