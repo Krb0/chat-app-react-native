@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import ChatScreen from "./screens/ChatScreen";
 import LoginScreen from "./screens/LoginScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 
 const Stack = createStackNavigator();
 
@@ -14,7 +15,8 @@ const ChatStack = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Chat" component={LoginScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} key="SignUp" />
+      <Stack.Screen name="Login" component={LoginScreen} key="Login" />
     </Stack.Navigator>
   );
 };
