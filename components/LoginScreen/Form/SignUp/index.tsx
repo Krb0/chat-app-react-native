@@ -15,7 +15,9 @@ const SignUp = ({ login }: { login: boolean }) => {
         {login ? "Don't have an account?" : "Already have an account?"}
       </Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate(login ? "SignUp" : "Login")}
+        onPress={() =>
+          navigation.navigate(login ? "SignUpScreen" : "LoginScreen")
+        }
       >
         <Text
           style={{
