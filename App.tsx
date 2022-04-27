@@ -24,7 +24,12 @@ const AuthenticatedUserProvider = ({ children }: any) => {
 const ChatStack = () => {
   return (
     <Stack.Navigator defaultScreenOptions={HomeScreen}>
-      <Stack.Screen name="HomeScreen" component={HomeScreen} key="Home" />
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        key="Home"
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="ChatScreen" component={ChatScreen} key="Chat" />
     </Stack.Navigator>
   );
