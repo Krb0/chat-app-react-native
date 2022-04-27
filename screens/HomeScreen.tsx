@@ -1,73 +1,43 @@
-import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Entypo, FontAwesome } from "@expo/vector-icons";
-import { signOut } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 import { auth } from "../config/firebase";
-const elonUrl = "https://www.pngmart.com/files/21/Elon-Musk-PNG-HD.png";
+import { ref, getStorage, getDownloadURL } from "firebase/storage";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../components/HomeScreen/Header";
+import ImageUploader from "../components/HomeScreen/ImageUploader";
+import ChatButton from "../components/HomeScreen/ChatButton";
+
+const baseImage =
+  "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png";
+
+const getImage = () => {
+  const storage = getStorage();
+  const storageRef = ref(storage, "profile_images/" + auth.currentUser?.uid);
+  const url = getDownloadURL(storageRef)
+    .then((url) => url)
+    .catch(() => baseImage);
+  return url;
+};
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
+  const [image, setImage] = useState<any>(baseImage);
+
   useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <FontAwesome
-          name="search"
-          size={24}
-          color={"lightgray"}
-          style={{ marginLeft: 15 }}
-        />
-      ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => signOut(auth)}>
-          <Image
-            source={{ uri: elonUrl }}
-            style={{
-              width: 40,
-              height: 40,
-              marginRight: 15,
-              borderRadius: 200,
-            }}
-          />
-        </TouchableOpacity>
-      ),
-      headerTitle: () => <Text>Chat App</Text>,
-    });
-  }, [navigation]);
+    getImage().then((res) => setImage(res));
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("ChatScreen")}
-        style={styles.chatButton}
-      >
-        <Entypo name="chat" size={24} color={"white"} />
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Header image={image} />
+      <ImageUploader setImage={setImage} />
+      <ChatButton />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
     backgroundColor: "#fff",
-  },
-  chatButton: {
-    backgroundColor: "purple",
-    height: 50,
-    width: 50,
-    borderRadius: 25,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#232",
-    shadowOffset: {
-      width: 4,
-      height: 2,
-    },
-    shadowOpacity: 0.9,
-    shadowRadius: 8,
-    marginRight: 20,
-    marginBottom: 50,
   },
 });
