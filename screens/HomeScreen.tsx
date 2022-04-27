@@ -2,7 +2,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
-const catImageUrl = "https://www.pngmart.com/files/21/Elon-Musk-PNG-HD.png";
+import { signOut } from "firebase/auth";
+import { auth } from "../config/firebase";
+const elonUrl = "https://www.pngmart.com/files/21/Elon-Musk-PNG-HD.png";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -17,15 +19,17 @@ export default function HomeScreen() {
         />
       ),
       headerRight: () => (
-        <Image
-          source={{ uri: catImageUrl }}
-          style={{
-            width: 40,
-            height: 40,
-            marginRight: 15,
-            borderRadius: 200,
-          }}
-        />
+        <TouchableOpacity onPress={() => signOut(auth)}>
+          <Image
+            source={{ uri: elonUrl }}
+            style={{
+              width: 40,
+              height: 40,
+              marginRight: 15,
+              borderRadius: 200,
+            }}
+          />
+        </TouchableOpacity>
       ),
       headerTitle: () => <Text>Chat App</Text>,
     });
