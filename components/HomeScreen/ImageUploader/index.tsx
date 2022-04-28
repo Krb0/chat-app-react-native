@@ -9,9 +9,9 @@ import * as ImagePicker from "expo-image-picker";
 import { auth } from "../../../config/firebase";
 
 const ImageUploader = ({
-  setImage,
+  uploadImage,
 }: {
-  setImage: React.Dispatch<React.SetStateAction<string>>;
+  uploadImage: (blob: any) => void;
 }) => {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -24,16 +24,7 @@ const ImageUploader = ({
     if (!result.cancelled) {
       const img = await fetch(result.uri);
       const blob = await img.blob();
-      const storageRef = ref(
-        getStorage(),
-        "profile_images/" + auth.currentUser?.uid
-      );
-      await uploadBytesResumable(storageRef, blob).catch((err: any) =>
-        console.log(err)
-      );
-      await getDownloadURL(storageRef).then((url: any) => {
-        setImage(url);
-      });
+      uploadImage(blob);
     }
   };
 
@@ -48,12 +39,12 @@ const ImageUploader = ({
       <TouchableOpacity
         onPress={() => pickImage()}
         style={{
-          backgroundColor: "rgba(0,0,150,0.5)",
+          backgroundColor: "rgba(50,0,100,0.5)",
           padding: 20,
           borderRadius: 4,
         }}
       >
-        <Text style={{ color: "white" }}>Upload Image</Text>
+        <Text style={{ color: "white" }}>Upload Avatar</Text>
       </TouchableOpacity>
     </View>
   );
