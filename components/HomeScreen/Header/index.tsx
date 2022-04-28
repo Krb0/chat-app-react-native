@@ -1,6 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import { signOut } from "firebase/auth";
-import { Image, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { auth } from "../../../config/firebase";
 
 const Header = ({ image }: { image: string }) => {
@@ -18,6 +18,7 @@ const Header = ({ image }: { image: string }) => {
         color={"lightgray"}
         style={{ marginLeft: 15 }}
       />
+      <Text>Chat App</Text>
       <TouchableOpacity onPress={() => signOut(auth)}>
         <Image
           source={{ uri: image }}
