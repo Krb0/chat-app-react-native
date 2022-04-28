@@ -30,7 +30,12 @@ const ChatStack = () => {
         key="Home"
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="ChatScreen" component={ChatScreen} key="Chat" />
+      <Stack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
+        key="Chat"
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
