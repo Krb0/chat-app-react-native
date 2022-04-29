@@ -7,7 +7,15 @@ import { signOut } from "firebase/auth";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { auth } from "../../../config/firebase";
 
-const Header = ({ image }: { image: string }) => {
+const Header = ({
+  modalVisible,
+  setModalVisible,
+  image,
+}: {
+  image: string;
+  modalVisible: boolean;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   return (
     <View
       style={{
@@ -16,7 +24,7 @@ const Header = ({ image }: { image: string }) => {
         justifyContent: "space-between",
       }}
     >
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
         <MaterialCommunityIcons
           name="message-plus-outline"
           size={24}
