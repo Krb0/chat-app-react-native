@@ -10,6 +10,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./config/firebase";
 import AllChatsScreen from "./screens/AllChatsScreen";
+import useImage from "./hooks/useImage";
 
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -23,23 +24,24 @@ const AuthenticatedUserProvider = ({ children }: any) => {
 };
 
 const ChatStack = () => {
+  const [image, setImage] = useImage();
   return (
     <Stack.Navigator defaultScreenOptions={HomeScreen}>
       <Stack.Screen
         name="AllChatsScreen"
-        component={AllChatsScreen}
+        component={() => <AllChatsScreen image={image} />}
         key="AllChats"
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="HomeScreen"
-        component={HomeScreen}
+        component={() => <HomeScreen image={image} setImage={setImage} />}
         key="Home"
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="ChatScreen"
-        component={ChatScreen}
+        component={({ route }) => <ChatScreen image={image} route={route} />}
         key="Chat"
         options={{ headerShown: false }}
       />
