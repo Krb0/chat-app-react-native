@@ -9,6 +9,7 @@ import HomeScreen from "./screens/HomeScreen";
 import { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./config/firebase";
+import AllChatsScreen from "./screens/AllChatsScreen";
 
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -24,6 +25,12 @@ const AuthenticatedUserProvider = ({ children }: any) => {
 const ChatStack = () => {
   return (
     <Stack.Navigator defaultScreenOptions={HomeScreen}>
+      <Stack.Screen
+        name="AllChatsScreen"
+        component={AllChatsScreen}
+        key="AllChats"
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}

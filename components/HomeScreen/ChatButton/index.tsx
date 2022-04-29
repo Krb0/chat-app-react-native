@@ -6,7 +6,7 @@ const ChatButton = () => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("ChatScreen")}
+      onPress={() => navigation.navigate("AllChatsScreen")}
       style={styles.chatButton}
     >
       <Entypo name="chat" size={24} color={"white"} />
