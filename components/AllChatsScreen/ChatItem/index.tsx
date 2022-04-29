@@ -20,8 +20,11 @@ const ChatItem = ({
       onPress={() => navigation.navigate("ChatScreen", { id: item.id })}
     >
       <View style={styles.container}>
-        <Image source={{ uri: item.user.avatar }} style={styles.image} />
-        <Text>{item.user.email}</Text>
+        <Image
+          source={{ uri: item?.user?.avatar ? item.user.avatar : "" }}
+          style={styles.image}
+        />
+        <Text>{item?.user?.email}</Text>
       </View>
     </TouchableOpacity>
   );

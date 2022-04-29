@@ -1,3 +1,4 @@
+import { doc, setDoc } from "firebase/firestore";
 import {
   getDownloadURL,
   getStorage,
@@ -5,7 +6,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import React, { useEffect, useState } from "react";
-import { auth } from "../config/firebase";
+import { auth, database } from "../config/firebase";
 
 const baseImage =
   "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png";
@@ -32,6 +33,14 @@ const useImage = () => {
     );
     await getDownloadURL(storageRef).then((url: any) => {
       setImage(url);
+      const docRef = doc(
+        database,
+        "users/" + auth.currentUser?.email?.toLowerCase()
+      );
+      setDoc(docRef, {
+        email: auth.currentUser?.email?.toLowerCase(),
+        avatar: url,
+      });
     });
   };
 

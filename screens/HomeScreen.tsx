@@ -5,8 +5,7 @@ import ImageUploader from "../components/HomeScreen/ImageUploader";
 import ChatButton from "../components/HomeScreen/ChatButton";
 import useImage from "../hooks/useImage";
 
-export default function HomeScreen() {
-  const [image, uploadImage] = useImage();
+export default function HomeScreen({ image, setImage: uploadImage }: any) {
   return (
     <SafeAreaView style={styles.container}>
       <Header image={image} />

@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { collection, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import {
   Alert,
@@ -10,7 +11,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { auth } from "../../../config/firebase";
+import { auth, database } from "../../../config/firebase";
 import Inputs from "./Inputs";
 import SignUp from "./SignUp";
 
@@ -21,12 +22,20 @@ const Form = ({ login }: { login: boolean }) => {
   const onHandleLogin = () => {
     if (email !== "" && password !== "") {
       if (login) {
-        signInWithEmailAndPassword(auth, email, password)
-          .then(() => Alert.alert("Login Success"))
-          .catch((err) => Alert.alert("Login Error", err.message));
+        signInWithEmailAndPassword(auth, email, password).catch((err) =>
+          Alert.alert("Login Error", err.message)
+        );
       } else {
         createUserWithEmailAndPassword(auth, email, password)
-          .then(() => Alert.alert("SignUp Success"))
+          .then(() => {
+            const collectionRef = collection(database, "users");
+            const docRef = doc(collectionRef, email);
+            setDoc(docRef, {
+              email,
+              avatar:
+                "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
+            });
+          })
           .catch((err) => Alert.alert("SignUp Error", err.message));
       }
     }

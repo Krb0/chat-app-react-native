@@ -8,15 +8,12 @@ import {
 import { useCallback, useLayoutEffect, useState } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 import { auth, database } from "../config/firebase";
-import useImage from "../hooks/useImage";
 
-export default function ChatScreen({ route }: any) {
+export default function ChatScreen({ route, image }: any) {
   const [messages, setMessages] = useState<any>([]);
-  const [image] = useImage();
   const { id } = route.params;
   useLayoutEffect(() => {
     const collectionRef = collection(database, `chats/${id}/messages `);
-    console.log(collectionRef);
     const q = query(collectionRef, orderBy("createdAt", "desc"));
     const unsuscribe = onSnapshot(q, (snapshot: any) => {
       setMessages(

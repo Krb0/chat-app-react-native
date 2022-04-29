@@ -1,3 +1,4 @@
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import {
   Pressable,
@@ -6,19 +7,51 @@ import {
   Modal as ModalNative,
   StyleSheet,
   TextInput,
+  Alert,
 } from "react-native";
+import { auth, database } from "../../../config/firebase";
+import useImage from "../../../hooks/useImage";
 
 const Modal = ({
+  chats,
   modalVisible,
   setModalVisible,
 }: {
+  chats: any[];
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [contact, setContact] = useState<string>("");
+  const [image] = useImage();
   const handleAdd = () => {
-      if (contact.length > 0) {
-        const chatsRef = ref()
+    if (contact.length > 0) {
+      const chatsRef = collection(database, "chats");
+      const usersRef = doc(database, `users/${contact.toLowerCase()}`);
+      getDoc(usersRef).then((doc: any) => {
+        if (!chats.find((chat) => chat.user.email === contact)) {
+          if (doc.data()) {
+            addDoc(chatsRef, {
+              users: [
+                {
+                  email: auth?.currentUser?.email,
+                  avatar: image,
+                },
+                {
+                  email: contact,
+                  avatar: doc.data().avatar,
+                },
+              ],
+            });
+            setModalVisible(false);
+          } else {
+            setModalVisible(false);
+            Alert.alert("User not found");
+          }
+        } else {
+          Alert.alert("Contact already exists!");
+          setModalVisible(false);
+        }
+      });
     }
   };
   return (

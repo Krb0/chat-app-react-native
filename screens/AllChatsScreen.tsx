@@ -2,14 +2,13 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Buttons from "../components/AllChatsScreen/Buttons";
 import ChatItem from "../components/AllChatsScreen/ChatItem";
 import Header from "../components/AllChatsScreen/Header";
 import Modal from "../components/AllChatsScreen/Modal";
 import { auth, database } from "../config/firebase";
-import useImage from "../hooks/useImage";
 
-export default function AllChatsScreen() {
-  const [image] = useImage();
+export default function AllChatsScreen({ image }: any) {
   const [chats, setChats] = useState<any>([]);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -44,13 +43,16 @@ export default function AllChatsScreen() {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-      <Modal modalVisible={modalVisible} setModalVisible={setModalVisible} />
-      <View>
-        <FlatList
-          data={chats}
-          renderItem={({ item }) => <ChatItem item={item} />}
-        />
-      </View>
+      <Modal
+        chats={chats}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+      <FlatList
+        data={chats}
+        renderItem={({ item }) => <ChatItem item={item} />}
+      />
+      <Buttons setModalVisible={setModalVisible} />
     </SafeAreaView>
   );
 }
